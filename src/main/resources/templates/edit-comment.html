@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Comment</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+
+<body>
+
+<div class="page">
+
+    <div class="browser-bar">
+        <div class="browser-dots">
+            <span class="browser-dot"></span>
+            <span class="browser-dot"></span>
+            <span class="browser-dot"></span>
+        </div>
+        <div class="browser-title">My Blog Application</div>
+    </div>
+
+    <div class="url-bar">
+        /comments/edit/<span th:text="${comment.id}"></span>
+    </div>
+
+    <main class="form-page">
+        <h1>Edit Comment</h1>
+
+        <form th:action="@{/comments/edit/{id}(id=${comment.id})}"
+              method="post">
+
+            <textarea name="content"
+                      required
+                      placeholder="Write your comment..."
+                      th:text="${comment.comment}"></textarea>
+
+            <div class="publish-container">
+                <button type="submit" class="btn-primary">Update Comment</button>
+            </div>
+
+        </form>
+    </main>
+
+</div>
+
+</body>
+</html>

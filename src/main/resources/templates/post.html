@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${post.title}">Blog Post</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+
+<body>
+
+<div class="page">
+
+    <div class="browser-bar">
+        <div class="browser-dots">
+            <span class="browser-dot"></span>
+            <span class="browser-dot"></span>
+            <span class="browser-dot"></span>
+        </div>
+        <div class="browser-title">My Blog Application</div>
+    </div>
+
+    <div class="url-bar">
+        /post?id=<span th:text="${post.id}"></span>
+    </div>
+
+    <main class="post-page">
+
+        <div class="post-top">
+            <strong>My Blog Application</strong>
+
+            <a th:href="@{/home}" class="home-link">Home</a>
+
+            <a th:href="@{/post/edit/{id}(id=${post.id})}" class="edit-link">Edit</a>
+
+            <form th:action="@{/post/{id}(id=${post.id})}" method="post">
+                <input type="hidden" name="_method" value="DELETE">
+                <button type="submit" class="btn-danger">Delete</button>
+            </form>
+        </div>
+
+        <div class="post-title-section">
+            <h1 th:text="${post.title}">Blog post title</h1>
+
+            <div class="post-meta">
+                <span th:text="${post.author.username}">Author</span>
+                <span> · </span>
+                <span th:text="${#temporals.format(post.publishedAt, 'dd/MM/yyyy')}">18/08/2020</span>
+            </div>
+        </div>
+
+        <div class="post-excerpt" th:if="${post.excerpt != null and !post.excerpt.isEmpty()}">
+            <p th:text="${post.excerpt}">Post excerpt</p>
+        </div>
+
+        <div class="post-content">
+            <p th:text="${post.content}">Lorem ipsum dolor sit amet.</p>
+        </div>
+
+        <div class="post-tags"
+             th:if="${post.tags != null and !post.tags.isEmpty()}">
+            <span class="tag"
+                  th:each="tag : ${post.tags}"
+                  th:text="${tag.name}">
+                tag
+            </span>
+        </div>
+
+        <section class="comments-section">
+
+            <h2>Comments</h2>
+
+            <div class="add-comment">
+                <h3>Add a comment</h3>
+
+                <form th:action="@{/comments/add}" method="post">
+                    <input type="hidden" name="postId" th:value="${post.id}">
+
+                    <textarea name="content"
+                              placeholder="Write your comment..."
+                              required></textarea>
+
+                    <button type="submit" class="btn-primary">Add Comment</button>
+                </form>
+            </div>
+
+            <div class="comments-list">
+
+                <div class="comment" th:each="comment : ${comments}">
+
+                    <div class="comment-header">
+                        <strong th:text="${comment.commenter.username}">username</strong>
+                        <span th:text="${#temporals.format(comment.createdAt, 'dd/MM/yyyy HH:mm')}">
+                            18/08/2020 10:30
+                        </span>
+                    </div>
+
+                    <div class="comment-content">
+                        <p th:text="${comment.comment}">This is a comment.</p>
+
+                        <a th:href="@{/comments/edit/{id}(id=${comment.id})}"
+                           class="edit-comment">
+                            Edit
+                        </a>
+
+                        <form th:action="@{/comments/delete/{id}(id=${comment.id})}" method="post">
+                            <button type="submit" class="delete-comment">Delete</button>
+                        </form>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+</div>
+
+</body>
+</html>

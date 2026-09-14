@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Blog Application</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+
+<body>
+
+<div class="page">
+
+    <div class="browser-bar">
+        <div class="browser-dots">
+            <span class="browser-dot"></span>
+            <span class="browser-dot"></span>
+            <span class="browser-dot"></span>
+        </div>
+        <div class="browser-title">My Blog Application</div>
+    </div>
+
+    <div class="url-bar">/</div>
+
+    <main class="home-content">
+
+        <div class="home-header">
+            <h1>Posts</h1>
+            <a th:href="@{/newpost}" class="new-post-link">New Post</a>
+        </div>
+
+        <div class="new-post-search-container">
+            <form class="search-container" th:action="@{/home}" method="get">
+                <input class="search-box"
+                       type="search"
+                       name="search"
+                       th:value="${search}"
+                       placeholder="Search posts">
+
+                <button type="submit" class="search-button">Search</button>
+            </form>
+        </div>
+
+        <form class="filters" th:action="@{/home}" method="get">
+
+            <input type="hidden" name="search" th:value="${search}">
+
+            <select name="author">
+                <option value="">All Authors</option>
+                <option th:each="author : ${authors}"
+                        th:value="${author.id}"
+                        th:text="${author.username}"
+                        th:selected="${selectedAuthor == author.id}">
+                </option>
+            </select>
+
+            <select name="tag">
+                <option value="">All Tags</option>
+                <option th:each="tag : ${tags}"
+                        th:value="${tag.id}"
+                        th:text="${tag.name}"
+                        th:selected="${selectedTag == tag.id}">
+                </option>
+            </select>
+
+            <select name="sort">
+                <option value="">Sort By Time</option>
+                <option value="desc" th:selected="${sort == 'desc'}">Newest First</option>
+                <option value="asc" th:selected="${sort == 'asc'}">Oldest First</option>
+            </select>
+
+            <button type="submit">Filter</button>
+        </form>
+
+        <div class="posts-grid">
+            <article class="post-card"
+                     th:each="post : ${posts}"
+                     th:onclick="'window.location.href=\'/post/' + ${post.id} + '\''">
+
+                <h2 th:text="${post.title}">Title</h2>
+
+                <div class="post-meta">
+                    <span th:text="${post.author.username}">Dhruv Dangi</span>
+                    <span> · </span>
+                    <span th:text="${#temporals.format(post.publishedAt, 'dd/MM/yyyy')}">18/08/2020</span>
+                </div>
+
+                <div class="post-excerpt"
+                     th:text="${post.excerpt}">
+                    Lorem ipsum dolor sit amet.
+                </div>
+            </article>
+        </div>
+
+        <div class="pagination">
+            <a th:if="${hasPrevious}"
+               th:href="@{/home(page=${page - 1}, search=${search}, author=${selectedAuthor}, tag=${selectedTag}, sort=${sort})}">
+                ← Previous
+            </a>
+            <span th:unless="${hasPrevious}">← Previous</span>
+
+            <a th:if="${hasNext}"
+               th:href="@{/home(page=${page + 1}, search=${search}, author=${selectedAuthor}, tag=${selectedTag}, sort=${sort})}">
+                Next →
+            </a>
+            <span th:unless="${hasNext}">Next →</span>
+        </div>
+
+    </main>
+
+</div>
+
+</body>
+</html>
