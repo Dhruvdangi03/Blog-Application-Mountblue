@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+
+<body>
+
+<div class="page auth-page-wrapper">
+
+    <div class="browser-bar">
+        <div class="browser-dots">
+            <span class="browser-dot"></span>
+            <span class="browser-dot"></span>
+            <span class="browser-dot"></span>
+        </div>
+        <div class="browser-title">My Blog Application</div>
+    </div>
+
+    <div class="url-bar">/signup</div>
+
+    <main class="auth-page">
+        <section class="auth-box">
+            <div class="auth-heading">
+                <h1>Create Account</h1>
+                <p>Create your account to start using the blog.</p>
+            </div>
+
+            <form class="auth-form"
+                  th:action="@{/signup}"
+                  method="post">
+
+                <div class="auth-field">
+                    <label for="username">Username</label>
+                    <input id="username"
+                           type="text"
+                           name="username"
+                           placeholder="Choose a username"
+                           autocomplete="username"
+                           required>
+                </div>
+
+                <div class="auth-field">
+                    <label for="email">Email</label>
+                    <input id="email"
+                           type="email"
+                           name="email"
+                           placeholder="Enter your email"
+                           autocomplete="email"
+                           required>
+                </div>
+
+                <div class="auth-field">
+                    <label for="password">Password</label>
+                    <input id="password"
+                           type="password"
+                           name="password"
+                           placeholder="Create a password"
+                           autocomplete="new-password"
+                           required>
+                </div>
+
+                <p class="auth-error"
+                   th:if="${param.error}">
+                    Unable to create the account. Please check your details.
+                </p>
+
+                <p class="auth-success"
+                   th:if="${param.success}">
+                    Account created successfully. You can now log in.
+                </p>
+
+                <button type="submit" class="btn-primary auth-submit">
+                    Sign Up
+                </button>
+            </form>
+
+            <div class="auth-footer">
+                <span>Already have an account?</span>
+                <a th:href="@{/login}">Login</a>
+            </div>
+        </section>
+    </main>
+
+</div>
+
+</body>
+</html>

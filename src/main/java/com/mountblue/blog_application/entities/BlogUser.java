@@ -29,11 +29,11 @@ public class BlogUser {
     @Column(nullable = false)
     private String password;
 
-    @OneToMany(mappedBy = "author")
+    @OneToMany(mappedBy = "author", cascade = CascadeType.ALL, orphanRemoval = true)
     @Column(nullable = false)
     private List<Post> posts = new ArrayList<>();
 
-    @OneToMany(mappedBy = "commenter")
+    @OneToMany(mappedBy = "commenter", cascade = CascadeType.ALL, orphanRemoval = true)
     @Column(nullable = false)
-    private Set<Comment> commentResponses = new HashSet<>();
+    private List<Comment> commentResponses = new ArrayList<>();
 }

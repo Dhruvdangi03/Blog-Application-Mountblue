@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+
+<body>
+
+<div class="page auth-page-wrapper">
+
+    <div class="browser-bar">
+        <div class="browser-dots">
+            <span class="browser-dot"></span>
+            <span class="browser-dot"></span>
+            <span class="browser-dot"></span>
+        </div>
+        <div class="browser-title">My Blog Application</div>
+    </div>
+
+    <div class="url-bar">/login</div>
+
+    <main class="auth-page">
+        <section class="auth-box">
+            <div class="auth-heading">
+                <h1>Login</h1>
+                <p>Sign in to continue to your blog.</p>
+            </div>
+
+            <form class="auth-form"
+                  th:action="@{/login}"
+                  method="post">
+
+                <div class="auth-field">
+                    <label for="username">Username</label>
+                    <input id="username"
+                           type="text"
+                           name="username"
+                           placeholder="Enter your username"
+                           autocomplete="username"
+                           required>
+                </div>
+
+                <div class="auth-field">
+                    <label for="password">Password</label>
+                    <input id="password"
+                           type="password"
+                           name="password"
+                           placeholder="Enter your password"
+                           autocomplete="current-password"
+                           required>
+                </div>
+
+                <p class="auth-error"
+                   th:if="${param.error}">
+                    Invalid username or password.
+                </p>
+
+                <p class="auth-success"
+                   th:if="${param.logout}">
+                    You have been logged out successfully.
+                </p>
+
+                <button type="submit" class="btn-primary auth-submit">
+                    Login
+                </button>
+            </form>
+
+            <div class="auth-footer">
+                <span>Don't have an account?</span>
+                <a th:href="@{/signup}">Create an account</a>
+            </div>
+        </section>
+    </main>
+
+</div>
+
+</body>
+</html>
