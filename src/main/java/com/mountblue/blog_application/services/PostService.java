@@ -23,26 +23,25 @@ public class PostService {
     private final PostRepo postRepo;
     private final TagService tagService;
     private final CommentRepo commentRepo;
-    private BlogUser blogUser;
+    private final BlogUserService blogUserService;
 
     @Autowired
     public PostService(
             PostRepo postRepo,
             TagService tagService,
-            CommentRepo commentRepo) {
+            CommentRepo commentRepo, BlogUserService blogUserService) {
 
         this.postRepo = postRepo;
         this.tagService = tagService;
         this.commentRepo = commentRepo;
+        this.blogUserService = blogUserService;
     }
 
     public void createPost(PostRequest postRequest) {
 
         Post post = new Post();
 
-        populateUser();
-
-        post.setAuthor(blogUser);
+        post.setAuthor(blogUserService.getCurrentUser());
         post.setTags(tagService.saveTags(postRequest.getTags().split(",")));
         post.setContent(postRequest.getContent());
         post.setExcerpt(postRequest.getExcerpt());
@@ -66,16 +65,6 @@ public class PostService {
         }
 
         return makePostWithTags(opt.get());
-    }
-
-    private void populateUser() {
-
-        blogUser = new BlogUser();
-
-        blogUser.setId(3L);
-        blogUser.setUsername("Prerna");
-        blogUser.setEmail("prerna@example.com");
-        blogUser.setPassword("password123");
     }
 
     private PostWithTags makePostWithTags(Post post) {

@@ -1,6 +1,5 @@
 package com.mountblue.blog_application.services;
 
-import com.mountblue.blog_application.entities.BlogUser;
 import com.mountblue.blog_application.entities.Comment;
 import com.mountblue.blog_application.entities.Post;
 import com.mountblue.blog_application.repositories.CommentRepo;
@@ -15,21 +14,23 @@ import java.util.Optional;
 public class CommentService {
     private final CommentRepo commentRepo;
     private final PostRepo postRepo;
+    private final BlogUserService blogUserService;
 
-    public CommentService(CommentRepo commentRepo, PostRepo postRepo) {
+    public CommentService(CommentRepo commentRepo, PostRepo postRepo, BlogUserService blogUserService) {
         this.commentRepo = commentRepo;
         this.postRepo = postRepo;
+        this.blogUserService = blogUserService;
     }
 
     public List<Comment> getCommentsByPostId(long id) {
         return commentRepo.findByPostId(id);
     }
 
-    public void createComment(String content, Long postId, BlogUser blogUser) {
+    public void createComment(String content, Long postId) {
         Comment comment = new Comment();
         comment.setComment(content);
-        comment.setCommenter(blogUser);
-        comment.setEmail(blogUser.getEmail());
+        comment.setCommenter(blogUserService.getCurrentUser());
+        comment.setEmail(blogUserService.getCurrentUser().getEmail());
         comment.setCreatedAt(LocalDateTime.now());
         comment.setUpdatedAt(LocalDateTime.now());
 

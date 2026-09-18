@@ -26,6 +26,7 @@ public class SpringSecurity {
                         .anyRequest().authenticated() // Fallback for other requests
                 ).formLogin(form -> form
                         .loginPage("/login")
+                        .defaultSuccessUrl("/home", true)
                         .permitAll()
                 )
                 .build();

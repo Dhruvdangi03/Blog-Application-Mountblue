@@ -1,6 +1,5 @@
 package com.mountblue.blog_application.controllers;
 
-import com.mountblue.blog_application.entities.BlogUser;
 import com.mountblue.blog_application.entities.Comment;
 import com.mountblue.blog_application.services.CommentService;
 import org.springframework.stereotype.Controller;
@@ -13,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Controller
 public class CommentController {
     private final CommentService commentService;
-    private BlogUser blogUser;
 
     public CommentController(CommentService commentService) {
         this.commentService = commentService;
@@ -24,8 +22,7 @@ public class CommentController {
             @RequestParam Long postId,
             @RequestParam String content) {
 
-        populateUser();
-        commentService.createComment(content, postId, blogUser);
+        commentService.createComment(content, postId);
 
         return "redirect:/post/" + postId;
     }
@@ -66,13 +63,5 @@ public class CommentController {
         commentService.deleteComment(id);
 
         return "redirect:/post/" + postId;
-    }
-
-    private void populateUser(){
-        blogUser = new BlogUser();
-        blogUser.setId(3L);
-        blogUser.setUsername("Prerna");
-        blogUser.setEmail("prerna@example.com");
-        blogUser.setPassword("password123");
     }
 }
