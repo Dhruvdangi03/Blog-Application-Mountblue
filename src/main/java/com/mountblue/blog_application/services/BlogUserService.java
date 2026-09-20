@@ -17,6 +17,11 @@ public class BlogUserService {
     }
 
     public void saveBlogUser(SignupRequest signupRequest){
+        BlogUser prev = blogUserRepo.findByUsername(signupRequest.getUsername());
+
+        if(prev != null)
+            throw new RuntimeException("User with this username already present");
+
         BlogUser blogUser = new BlogUser();
         blogUser.setUsername(signupRequest.getUsername());
         blogUser.setEmail(signupRequest.getEmail());

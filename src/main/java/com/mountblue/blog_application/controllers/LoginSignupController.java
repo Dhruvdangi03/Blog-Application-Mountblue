@@ -27,9 +27,14 @@ public class LoginSignupController {
 
     @PostMapping("/signup")
     public String createUser(@ModelAttribute SignupRequest signupRequest) {
+        try {
+            blogUserService.saveBlogUser(signupRequest);
 
-        blogUserService.saveBlogUser(signupRequest);
+            return "redirect:/signup?success";
 
-        return "redirect:/login";
+        } catch (Exception e) {
+
+            return "redirect:/signup?error";
+        }
     }
 }
