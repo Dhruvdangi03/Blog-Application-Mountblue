@@ -25,6 +25,7 @@ public class BlogUserService {
         BlogUser blogUser = new BlogUser();
         blogUser.setUsername(signupRequest.getUsername());
         blogUser.setEmail(signupRequest.getEmail());
+        blogUser.setRole("USER");
         blogUser.setPassword(signupRequest.getPassword());
 
         blogUserRepo.save(blogUser);

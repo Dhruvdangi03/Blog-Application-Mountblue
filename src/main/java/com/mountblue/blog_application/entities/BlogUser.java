@@ -29,6 +29,9 @@ public class BlogUser {
     @Column(nullable = false)
     private String password;
 
+    @Column(nullable = false)
+    private String role;
+
     @OneToMany(mappedBy = "author", cascade = CascadeType.ALL, orphanRemoval = true)
     @Column(nullable = false)
     private List<Post> posts = new ArrayList<>();
