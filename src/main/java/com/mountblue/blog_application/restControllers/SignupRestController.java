@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-@RestController
+@RestController("/rest/signup")
 public class SignupRestController {
     private final BlogUserService blogUserService;
 
@@ -15,7 +15,7 @@ public class SignupRestController {
         this.blogUserService = blogUserService;
     }
 
-    @PostMapping("/rest/signup")
+    @PostMapping
     public ResponseEntity<?> signup(@RequestBody SignupRequest signupRequest){
         blogUserService.saveBlogUser(signupRequest);
         return ResponseEntity.ok("Signup was Successful !");
