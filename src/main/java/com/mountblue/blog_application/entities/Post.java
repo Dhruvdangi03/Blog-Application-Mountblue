@@ -1,5 +1,6 @@
 package com.mountblue.blog_application.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
@@ -53,9 +54,11 @@ public class Post {
             joinColumns=@JoinColumn(name="post_id"),
             inverseJoinColumns= @JoinColumn(name="tag_id")
     )
+    @JsonIgnore
     private List<Tag> tags = new ArrayList<>();
 
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
+    @JsonIgnore
     private List<Comment> comments = new ArrayList<>();
 
 }

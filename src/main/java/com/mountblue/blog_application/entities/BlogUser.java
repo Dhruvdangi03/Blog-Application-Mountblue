@@ -1,5 +1,6 @@
 package com.mountblue.blog_application.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -34,9 +35,11 @@ public class BlogUser {
 
     @OneToMany(mappedBy = "author", cascade = CascadeType.ALL)
     @Column(nullable = false)
+    @JsonIgnore
     private List<Post> posts = new ArrayList<>();
 
     @OneToMany(mappedBy = "commenter", cascade = CascadeType.ALL)
     @Column(nullable = false)
+    @JsonIgnore
     private List<Comment> commentResponses = new ArrayList<>();
 }

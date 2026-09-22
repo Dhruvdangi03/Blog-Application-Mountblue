@@ -1,5 +1,6 @@
 package com.mountblue.blog_application.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
@@ -34,5 +35,6 @@ public class Tag {
 
     @ManyToMany(mappedBy = "tags")
     @Column(nullable = false)
+    @JsonIgnore
     private List<Post> posts = new ArrayList<>();
 }
