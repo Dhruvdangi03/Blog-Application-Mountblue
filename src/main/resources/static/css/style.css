@@ -499,6 +499,13 @@ button:disabled,
     margin-bottom: 34px;
 }
 
+.edit-delete-btn {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 8px;
+}
+
 .post-top strong {
     margin-right: auto;
     color: #444;

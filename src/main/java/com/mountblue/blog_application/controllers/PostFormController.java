@@ -19,12 +19,12 @@ public class PostFormController {
     @GetMapping("/newpost")
     public String newPost(Model model) {
         model.addAttribute("postRequest", new PostRequest());
+
         return "post-form";
     }
 
     @PostMapping("/posts")
     public String createPost(@ModelAttribute PostRequest postRequest) {
-
         postService.createPost(postRequest);
 
         return "redirect:/home";

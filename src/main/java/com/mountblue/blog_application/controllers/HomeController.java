@@ -1,6 +1,7 @@
 package com.mountblue.blog_application.controllers;
 
 import com.mountblue.blog_application.DTO.PostWithTags;
+import com.mountblue.blog_application.DTO.SearchRequestDTO;
 import com.mountblue.blog_application.services.BlogUserService;
 import com.mountblue.blog_application.services.PostService;
 import com.mountblue.blog_application.services.TagService;
@@ -32,11 +33,7 @@ public class HomeController {
             Model model) {
 
         Page<PostWithTags> posts = postService.filterPosts(
-                search,
-                author,
-                tag,
-                sort,
-                page,
+                new SearchRequestDTO(search, author, tag, sort, page),
                 10
         );
 

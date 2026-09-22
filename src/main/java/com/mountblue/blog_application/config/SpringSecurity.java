@@ -21,14 +21,16 @@ public class SpringSecurity {
                                 "/css/**",
                                 "/home",
                                 "/signup",
-                                "/post/{id:\\d+}"
+                                "/post/{id:\\d+}",
+                                "/rest/authors",
+                                "/rest/tags"
                         ).permitAll() // Publicly accessible
                         .anyRequest().authenticated() // Fallback for other requests
                 ).formLogin(form -> form
                         .loginPage("/login")
                         .defaultSuccessUrl("/home", true)
                         .permitAll()
-                )
+                ).httpBasic(Customizer.withDefaults())
                 .build();
     }
 }

@@ -51,7 +51,10 @@ public class CommentService {
         return commentRepo.findById(id).orElseThrow(()->new RuntimeException("Not able to find comment by id inside CommentService"));
     }
 
-    public void saveComment(Comment comment) {
-        commentRepo.save(comment);
+    public Comment updateComment(long id, String content) {
+        Comment comment = getCommentById(id);
+
+        comment.setComment(content);
+        return commentRepo.save(comment);
     }
 }

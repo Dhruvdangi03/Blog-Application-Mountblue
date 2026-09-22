@@ -2,6 +2,7 @@ package com.mountblue.blog_application.services;
 
 import com.mountblue.blog_application.DTO.PostRequest;
 import com.mountblue.blog_application.DTO.PostWithTags;
+import com.mountblue.blog_application.DTO.SearchRequestDTO;
 import com.mountblue.blog_application.entities.BlogUser;
 import com.mountblue.blog_application.entities.Comment;
 import com.mountblue.blog_application.entities.Post;
@@ -93,27 +94,27 @@ public class PostService {
         postRepo.delete(post);
     }
 
-    public Page<PostWithTags> filterPosts(String search, Long author, Long tag, String sort, int page, int size) {
+    public Page<PostWithTags> filterPosts(SearchRequestDTO searchRequestDTO, int size) {
         Pageable pageable;
 
-        if ("asc".equalsIgnoreCase(sort)) {
+        if ("asc".equalsIgnoreCase(searchRequestDTO.getSort())) {
             pageable = PageRequest.of(
-                    page,
+                    searchRequestDTO.getPage(),
                     size,
                     Sort.by("publishedAt").ascending()
             );
         } else {
             pageable = PageRequest.of(
-                    page,
+                    searchRequestDTO.getPage(),
                     size,
                     Sort.by("publishedAt").descending()
             );
         }
 
         Page<Post> posts = postRepo.filterPosts(
-                search,
-                author,
-                tag,
+                searchRequestDTO.getSearch(),
+                searchRequestDTO.getAuthor(),
+                searchRequestDTO.getTag(),
                 pageable
         );
 

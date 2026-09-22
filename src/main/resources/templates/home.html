@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+                xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <head>
     <meta charset="UTF-8">
@@ -27,7 +28,7 @@
 
         <div class="home-header">
             <h1>Posts</h1>
-            <a th:href="@{/newpost}" class="new-post-link">New Post</a>
+            <a th:href="@{/newpost}" class="new-post-link" sec:authorize="isAuthenticated()">New Post</a>
         </div>
 
         <div class="new-post-search-container">

@@ -23,13 +23,16 @@ public class CustomUserDetailsService implements UserDetailsService {
 
         BlogUser user = blogUserRepo.findByUsername(username);
 
-        if(user == null)
-            return User.builder().build();
+        if(user == null){
+            throw new UsernameNotFoundException(
+                    "User not found: " + username
+            );
+        }
 
         return User.builder()
                 .username(user.getUsername())
                 .password("{noop}" + user.getPassword())
-                .roles("USER")
+                .roles(user.getRole())
                 .build();
     }
 }

@@ -44,13 +44,7 @@ public class CommentController {
             @PathVariable Long id,
             @RequestParam String content) {
 
-        Comment comment = commentService.getCommentById(id);
-
-        comment.setComment(content);
-
-        commentService.saveComment(comment);
-
-        return "redirect:/post/" + comment.getPost().getId();
+        return "redirect:/post/" + commentService.updateComment(id, content).getPost().getId();
     }
 
     @PostMapping("/comments/delete/{id}")

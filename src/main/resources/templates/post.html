@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+                xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <head>
     <meta charset="UTF-8">
@@ -32,12 +33,16 @@
 
             <a th:href="@{/home}" class="home-link">Home</a>
 
-            <a th:href="@{/post/edit/{id}(id=${post.id})}" class="edit-link">Edit</a>
+            <div class="edit-delete-btn" sec:authorize="isAuthenticated()"
+                 th:if="${post.author.username == #authentication.name
+                        or #authorization.expression('hasRole(''ADMIN'')')}">
+                <a th:href="@{/post/edit/{id}(id=${post.id})}" class="edit-link">Edit</a>
 
-            <form th:action="@{/post/delete/{id}(id=${post.id})}" method="post">
-                <input type="hidden" name="_method" value="DELETE">
-                <button type="submit" class="btn-danger">Delete</button>
-            </form>
+                <form th:action="@{/post/delete/{id}(id=${post.id})}" method="post">
+                    <input type="hidden" name="_method" value="DELETE">
+                    <button type="submit" class="btn-danger">Delete</button>
+                </form>
+            </div>
         </div>
 
         <div class="post-title-section">
@@ -99,14 +104,18 @@
                     <div class="comment-content">
                         <p th:text="${comment.comment}">This is a comment.</p>
 
-                        <a th:href="@{/comments/edit/{id}(id=${comment.id})}"
-                           class="edit-comment">
-                            Edit
-                        </a>
+                        <div class="edit-delete-btn" sec:authorize="isAuthenticated()"
+                             th:if="${comment.commenter.username == #authentication.name
+                                    or post.author.username == #authentication.name}">
+                            <a th:href="@{/comments/edit/{id}(id=${comment.id})}"
+                               class="edit-comment">
+                                Edit
+                            </a>
 
-                        <form th:action="@{/comments/delete/{id}(id=${comment.id})}" method="post">
-                            <button type="submit" class="delete-comment">Delete</button>
-                        </form>
+                            <form th:action="@{/comments/delete/{id}(id=${comment.id})}" method="post">
+                                <button type="submit" class="delete-comment">Delete</button>
+                            </form>
+                        </div>
                     </div>
 
                 </div>
