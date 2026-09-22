@@ -5,7 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@RestController
+@RestController("/rest/tags")
 public class TagsRestController {
     private final TagService tagService;
 
@@ -13,7 +13,7 @@ public class TagsRestController {
         this.tagService = tagService;
     }
 
-    @GetMapping("/rest/tags")
+    @GetMapping
     public ResponseEntity<?> getAllTags(){
         return ResponseEntity.ok(tagService.getAllTags());
     }

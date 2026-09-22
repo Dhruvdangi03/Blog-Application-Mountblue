@@ -15,7 +15,7 @@ public class SignupRestController {
         this.blogUserService = blogUserService;
     }
 
-    @PostMapping("/signup")
+    @PostMapping("/rest/signup")
     public ResponseEntity<?> signup(@RequestBody SignupRequest signupRequest){
         blogUserService.saveBlogUser(signupRequest);
         return ResponseEntity.ok("Signup was Successful !");

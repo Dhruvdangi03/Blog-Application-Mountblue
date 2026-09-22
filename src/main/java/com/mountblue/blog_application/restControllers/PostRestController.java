@@ -7,7 +7,7 @@ import com.mountblue.blog_application.services.PostService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-@RestController
+@RestController("/rest/posts")
 public class PostRestController {
     private final PostService postService;
 
@@ -15,32 +15,32 @@ public class PostRestController {
         this.postService = postService;
     }
 
-    @PostMapping("/rest/posts")
+    @PostMapping
     public ResponseEntity<?> createPost(PostRequest postRequest) {
         postService.createPost(postRequest);
 
         return ResponseEntity.ok("Post Created Successfully !");
     }
 
-    @GetMapping("/rest/posts/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<?> getPostById(@PathVariable long id) {
         return ResponseEntity.ok(postService.getPostById(id));
     }
 
-    @GetMapping("/rest/posts")
+    @GetMapping
     public ResponseEntity<?> getPostSearch(SearchRequestDTO searchRequestDTO) {
         return ResponseEntity.ok(postService.filterPosts(
                 searchRequestDTO,
                 10));
     }
 
-    @DeleteMapping("/rest/posts/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<?> deletePostById(@PathVariable long id) {
         postService.deletePostById(id);
         return ResponseEntity.ok("Post Deleted Successfully !");
     }
 
-    @PutMapping("/rest/posts/{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<?> updatePostById(@PathVariable long id, PostRequest postRequest) {
         Post post = new Post();
         post.setTitle(postRequest.getTitle());
