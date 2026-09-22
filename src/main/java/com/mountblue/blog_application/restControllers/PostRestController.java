@@ -36,7 +36,11 @@ public class PostRestController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deletePostById(@PathVariable long id) {
-        postService.deletePostById(id);
+        try{
+            postService.deletePostById(id);
+        } catch (RuntimeException e) {
+            ResponseEntity.badRequest().body(e.getMessage());
+        }
         return ResponseEntity.ok("Post Deleted Successfully !");
     }
 
@@ -47,7 +51,11 @@ public class PostRestController {
         post.setExcerpt(postRequest.getExcerpt());
         post.setContent(postRequest.getContent());
 
-        postService.updatePost(id, post);
+        try{
+            postService.updatePost(id, post);
+        } catch (RuntimeException e) {
+            ResponseEntity.badRequest().body(e.getMessage());
+        }
 
         return ResponseEntity.ok("Post Updated Successfully !");
     }

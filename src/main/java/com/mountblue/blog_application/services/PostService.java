@@ -3,10 +3,7 @@ package com.mountblue.blog_application.services;
 import com.mountblue.blog_application.DTO.PostRequest;
 import com.mountblue.blog_application.DTO.PostWithTags;
 import com.mountblue.blog_application.DTO.SearchRequestDTO;
-import com.mountblue.blog_application.entities.BlogUser;
-import com.mountblue.blog_application.entities.Comment;
 import com.mountblue.blog_application.entities.Post;
-import com.mountblue.blog_application.repositories.CommentRepo;
 import com.mountblue.blog_application.repositories.PostRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -23,18 +20,16 @@ public class PostService {
 
     private final PostRepo postRepo;
     private final TagService tagService;
-    private final CommentRepo commentRepo;
     private final BlogUserService blogUserService;
 
     @Autowired
     public PostService(
             PostRepo postRepo,
             TagService tagService,
-            CommentRepo commentRepo, BlogUserService blogUserService) {
+            BlogUserService blogUserService) {
 
         this.postRepo = postRepo;
         this.tagService = tagService;
-        this.commentRepo = commentRepo;
         this.blogUserService = blogUserService;
     }
 
@@ -85,10 +80,10 @@ public class PostService {
 
     public void deletePostById(long id) {
         Post post = postRepo.findById(id).orElseThrow(() -> new RuntimeException( "Not able to findPostById in delete post" ));
-        List<Comment> commentList = commentRepo.findByPostId(id);
 
-        for (Comment comment : commentList) {
-            commentRepo.delete(comment);
+        if(!blogUserService.getCurrentUser().getUsername().equals(post.getAuthor().getUsername())
+                && !blogUserService.getCurrentUser().getRole().equals("ADMIN")){
+            throw new RuntimeException("You don't have the permission to delete the post !");
         }
 
         postRepo.delete(post);
@@ -123,6 +118,11 @@ public class PostService {
 
     public void updatePost(long id, Post post) {
         Post oldPost = postRepo.findById(id).orElseThrow(() -> new RuntimeException( "Not able to findPostById in Update post"));
+
+        if(!blogUserService.getCurrentUser().getUsername().equals(oldPost.getAuthor().getUsername())
+                && !blogUserService.getCurrentUser().getRole().equals("ADMIN")){
+            throw new RuntimeException("You don't have the permission to Update the post !");
+        }
 
         oldPost.setTitle(post.getTitle());
         oldPost.setExcerpt(post.getExcerpt());

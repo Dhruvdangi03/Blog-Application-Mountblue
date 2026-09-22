@@ -7,6 +7,7 @@ import com.mountblue.blog_application.services.CommentService;
 import com.mountblue.blog_application.services.PostService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -35,7 +36,12 @@ public class PostController {
 
     @DeleteMapping("/post/delete/{id}")
     public String deletePostById(@PathVariable long id){
-        postService.deletePostById(id);
+        try{
+            postService.deletePostById(id);
+        } catch (RuntimeException e) {
+            return e.getMessage();
+        }
+
         return "redirect:/home";
     }
 
@@ -55,8 +61,11 @@ public class PostController {
     public String updatePost(
             @PathVariable long id,
             @ModelAttribute Post post) {
-
-        postService.updatePost(id, post);
+        try{
+            postService.updatePost(id, post);
+        } catch (RuntimeException e) {
+            return e.getMessage();
+        }
 
         return "redirect:/post/" + id;
     }

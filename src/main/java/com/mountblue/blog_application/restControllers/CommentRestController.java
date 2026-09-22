@@ -27,12 +27,22 @@ public class CommentRestController {
 
     @PutMapping("/{Id}")
     public ResponseEntity<?> updateCommentsById(@PathVariable long id, String content){
-        return ResponseEntity.ok(commentService.updateComment(id, content));
+        try{
+            commentService.updateComment(id, content);
+        }catch (RuntimeException e){
+            ResponseEntity.badRequest().body(e.getMessage());
+        }
+
+        return ResponseEntity.ok("Comment Update Successfully !");
     }
 
     @DeleteMapping("/{Id}")
     public ResponseEntity<?> deleteCommentsById(@PathVariable long id){
-        commentService.deleteComment(id);
+        try{
+            commentService.deleteComment(id);
+        }catch (RuntimeException e){
+            ResponseEntity.badRequest().body(e.getMessage());
+        }
 
         return ResponseEntity.ok("Comment Deleted Successfully !");
     }

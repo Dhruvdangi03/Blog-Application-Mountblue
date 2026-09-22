@@ -2,6 +2,7 @@ package com.mountblue.blog_application.controllers;
 
 import com.mountblue.blog_application.entities.Comment;
 import com.mountblue.blog_application.services.CommentService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -44,7 +45,14 @@ public class CommentController {
             @PathVariable Long id,
             @RequestParam String content) {
 
-        return "redirect:/post/" + commentService.updateComment(id, content).getPost().getId();
+        Comment comment;
+        try{
+            comment = commentService.updateComment(id, content);
+        }catch (RuntimeException e){
+            return e.getMessage();
+        }
+
+        return "redirect:/post/" + comment.getPost().getId();
     }
 
     @PostMapping("/comments/delete/{id}")
@@ -54,7 +62,11 @@ public class CommentController {
 
         Long postId = comment.getPost().getId();
 
-        commentService.deleteComment(id);
+        try{
+            commentService.deleteComment(id);
+        }catch (RuntimeException e) {
+            return e.getMessage();
+        }
 
         return "redirect:/post/" + postId;
     }

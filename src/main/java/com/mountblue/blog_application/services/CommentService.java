@@ -44,15 +44,27 @@ public class CommentService {
     }
 
     public void deleteComment(Long id) {
+        Comment comment = commentRepo.findById(id).orElseThrow(() -> new RuntimeException("Not able to find comment by id inside CommentService"));
+
+        if(!comment.getCommenter().getUsername().equals(blogUserService.getCurrentUser().getUsername())
+                && !blogUserService.getCurrentUser().getRole().equals("ADMIN")){
+            throw new RuntimeException("You don't have the permission to delete this comment !");
+        }
+
         commentRepo.deleteById(id);
     }
 
     public Comment getCommentById(Long id) {
-        return commentRepo.findById(id).orElseThrow(()->new RuntimeException("Not able to find comment by id inside CommentService"));
+        return commentRepo.findById(id).orElseThrow(() -> new RuntimeException("Not able to find comment by id inside CommentService"));
     }
 
     public Comment updateComment(long id, String content) {
         Comment comment = getCommentById(id);
+
+        if(!comment.getCommenter().getUsername().equals(blogUserService.getCurrentUser().getUsername())
+                && !blogUserService.getCurrentUser().getRole().equals("ADMIN")){
+            throw new RuntimeException("You don't have the permission to update this comment !");
+        }
 
         comment.setComment(content);
         return commentRepo.save(comment);

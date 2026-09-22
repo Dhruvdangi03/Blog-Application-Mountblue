@@ -32,11 +32,11 @@ public class BlogUser {
     @Column(nullable = false)
     private String role;
 
-    @OneToMany(mappedBy = "author", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "author", cascade = CascadeType.ALL)
     @Column(nullable = false)
     private List<Post> posts = new ArrayList<>();
 
-    @OneToMany(mappedBy = "commenter", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "commenter", cascade = CascadeType.ALL)
     @Column(nullable = false)
     private List<Comment> commentResponses = new ArrayList<>();
 }
