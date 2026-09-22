@@ -29,6 +29,9 @@
         <div class="home-header">
             <h1>Posts</h1>
             <a th:href="@{/newpost}" class="new-post-link" sec:authorize="isAuthenticated()">New Post</a>
+            <form th:action="@{/logout}" method="post" class="logout-form">
+                <button type="submit" class="nav-button" sec:authorize="isAuthenticated()">Logout</button>
+            </form>
         </div>
 
         <div class="new-post-search-container">

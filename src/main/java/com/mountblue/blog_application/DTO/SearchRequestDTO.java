@@ -9,8 +9,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class SearchRequestDTO {
     private String search;
-    private long author;
-    private long tag;
+    private Long author;
+    private Long tag;
     private String sort;
     private int page;
 }

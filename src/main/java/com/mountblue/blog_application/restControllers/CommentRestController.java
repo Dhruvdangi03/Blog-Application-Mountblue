@@ -5,7 +5,8 @@ import com.mountblue.blog_application.services.CommentService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-@RestController("/rest/comments")
+@RestController
+@RequestMapping("/rest/comments")
 public class CommentRestController {
     private final CommentService commentService;
 

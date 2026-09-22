@@ -7,7 +7,8 @@ import com.mountblue.blog_application.services.PostService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-@RestController("/rest/posts")
+@RestController
+@RequestMapping("/rest/posts")
 public class PostRestController {
     private final PostService postService;
 

@@ -30,6 +30,10 @@ public class SpringSecurity {
                         .loginPage("/login")
                         .defaultSuccessUrl("/home", true)
                         .permitAll()
+                ).logout(logout -> logout
+                        .logoutUrl("/logout")
+                        .logoutSuccessUrl("/login?logout")
+                        .permitAll()
                 ).httpBasic(Customizer.withDefaults())
                 .build();
     }

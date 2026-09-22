@@ -5,9 +5,11 @@ import com.mountblue.blog_application.services.BlogUserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@RestController("/rest/signup")
+@RestController
+@RequestMapping("/rest/signup")
 public class SignupRestController {
     private final BlogUserService blogUserService;
 
